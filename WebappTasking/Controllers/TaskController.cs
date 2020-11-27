@@ -42,12 +42,19 @@ namespace WebappTasking.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(int id) 
         {
+            //var prevTask = Task;
             Task = new TaskModel();
             if (ModelState.IsValid)
             {
                 Task.Name = this.Request.Form["taskName"];
                 Task.TaskDescription = this.Request.Form["taskDescription"];
                 Task.Id = id;
+                Task.State = this.Request.Form["taskState"];
+                //if (prevTask != null)
+                //{
+                //    Task.State = prevTask.State;
+                //}
+
                 //Insert (Create Task)
                 if (Task.Id == 0) //Task is an instance of an object of the Task class
                 {
@@ -60,6 +67,9 @@ namespace WebappTasking.Controllers
                 //Update (Edit Task)
                 else
                 {
+                    Task.DateStarted = DateTime.Parse(this.Request.Form["taskDateStarted"]);
+                    Task.DateFinished = DateTime.Parse(this.Request.Form["taskDateFinished"]);
+                    Task.DateCreated = DateTime.Parse(this.Request.Form["taskDateCreated"]);
                     _db.Update(Task);
                 }
                 _db.SaveChanges();

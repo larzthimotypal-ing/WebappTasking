@@ -1,23 +1,29 @@
 ﻿@model WebappTasking.Models.TaskModel
 
 <br />
-<h1>@(Model.Id != 0 ? "Edit" : "Create New") Task</h1>
+<h1 class="page--title">@(Model.Id != 0 ? "Edit" : "Create New") Task</h1>
 
-<form method="post" id="upsertTask">
-    @if (Model.Id != 0)
-    {
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="DateCreated" />
-        <input type="hidden" asp-for="State" />
-    }
-    <label asp-for="Name"></label>
-    <input name="taskName" />
-    <label asp-for="TaskDescription"></label>
-    <button type="submit">@(Model.Id != 0 ? "Edit" : "Create")</button>
-    <a asp-action="Index">Back To Tasks</a>
-</form>
+<div class="form--container">
+    <form method="post" id="upsertTask">
+        @if (Model.Id != 0)
+        {
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="DateCreated" name="taskDateCreated" />
+            <input type="hidden" asp-for="State" name="taskState" />
+            <input type="hidden" asp-for="DateStarted" name="taskDateStarted" />
+            <input type="hidden" asp-for="DateFinished" name="taskDateFinished" />
+        }
+        <label asp-for="Name"></label>
+        <input name="taskName" value="@Model.Name" class="form-control" />
+        <label asp-for="TaskDescription"></label>
+    </form>
+    <textarea name="taskDescription" form="upsertTask" class="form-control">@Model.TaskDescription</textarea>
+    <form method="post" id="upsertTask" class="create--button--confirm">
+        <button type="submit" class="create--button">@(Model.Id != 0 ? "Edit" : "Create")</button>
+    </form>
+        <a asp-action="Index">Back To Tasks</a>
+</div>
 
-<textarea name="taskDescription" form="upsertTask"></textarea>
 
 
 
